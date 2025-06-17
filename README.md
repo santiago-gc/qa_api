@@ -1,8 +1,14 @@
-# API Test Setup Guide
+# Airalo Automated API Requests
 
-Automated requests to the Airalo Partner API.
+The file `test_api.py` has the following tests:
+
+1. `test_get_token`: Test to get an OAuth2 token from the Airalo API.
+2. `test_submit_order`: Test to verify an eSIM order submision based on quantity and package_id after getting a valid OAuth2 token.
+3. `test_get_esims`: Test to retrieve a list of eSIMs and validate them after getting a valid OAuth2 token.
 
 ---
+## Setup and Execution Instructions:
+
 
 ## 1. Create Project Directory
 
@@ -61,13 +67,13 @@ The structure of `airalo_api_test` should look like this:
 ```
 airalo_api_test/
 ├── v_airalo
-├── qa_api/
-     ├── .env
-     ├── .gitignore
-     ├── airalo_client.py
-     ├── README.md
-     ├── requirements.txt
-     ├── test_api.py
+└── qa_api/
+    ├── .env
+    ├── .gitignore
+    ├── airalo_client.py
+    ├── README.md
+    ├── requirements.txt
+    └── test_api.py
 ```
 
 ## 7. Run Tests
