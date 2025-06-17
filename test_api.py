@@ -21,7 +21,7 @@ def test_get_token(api_client):
     assert token
 
 def submit_order(api_client, quantity):
-    """Function to verify an eSIM order submision based on quantity and package_id."""
+    """Function to verify an eSIM order submision based on quantity and package_id"""
     order_response = api_client.submit_order(PACKAGE_ID, quantity)["submit_order_response"]
     response_package_id = order_response["data"]["package_id"]
     response_quantity = order_response["data"]["quantity"]
@@ -42,7 +42,7 @@ def test_submit_order_50eSIM(api_client):
     submit_order(api_client, 50)
 
 def test_get_esims(api_client):
-    """Test to retrieve a list of eSIMs and validate that they correspond to the previously submitted order"""
+    """Test to retrieve a list of eSIMs and validate that they correspond to a previously submitted order"""
     token = api_client.get_token()    
     order = api_client.submit_order(PACKAGE_ID, QUANTITY, token)
     order_response = order["submit_order_response"]
