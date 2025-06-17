@@ -1,10 +1,12 @@
 # Airalo Automated API Requests
 
-The file `test_api.py` has the following tests:
+The file `test_api.py` has the following main tests:
 
 1. `test_get_token`: Test to get an OAuth2 token from the Airalo API.
-2. `test_submit_order`: Test to verify an eSIM order submision based on quantity and package_id after getting a valid OAuth2 token.
+2. `test_submit_order_6eSIM`: Test to verify an eSIM order submision based on quantity (6 as indicated in the requirements) and package_id after getting a valid OAuth2 token.
 3. `test_get_esims`: Test to retrieve a list of eSIMs and validate them after getting a valid OAuth2 token.
+
+The other tests verify boundary contditions when generating an eSIM order (2 are expected to fail for ordering an invalid amount of eSIMs).
 
 ---
 ## Setup and Execution Instructions:

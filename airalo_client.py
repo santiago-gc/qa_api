@@ -16,7 +16,7 @@ class AiraloApiClient:
         self.client_secret = client_secret
         self.token = None
 
-    def get_token(self):
+    def get_token(self) -> str | None:
         """Method to obtain an OAuth2 token from the Airalo API.
 
         Returns:
@@ -36,7 +36,7 @@ class AiraloApiClient:
             return self.token
         return None
 
-    def submit_order(self, package_id: str, quantity: int, auth_token = None):
+    def submit_order(self, package_id: str, quantity: int, auth_token = None) -> dict:
         """Method to submit an order for eSIMs.
 
         Args:
@@ -48,8 +48,12 @@ class AiraloApiClient:
             ValueError: If the access token is not generated or if the HTTP response status is not 200.
 
         Returns:
-            The JSON response from the API.
+            dict:
+                {"submit_order_response": The JSON response from the API,
+                "order_id": The ID of the submitted order}
         """
+        if not 1 <= quantity <= 50:  # Based on the documentation.
+            raise ValueError(f"Invalid quantity: {quantity}. It must be an integer between 1 and 50")
         if not auth_token:
             token = self.get_token()
             if not token:
@@ -69,20 +73,23 @@ class AiraloApiClient:
         response = requests.post(order_url, headers=headers, json=payload)
         
         if response.status_code == 200:
-            return response.json()
+            submit_order_response = response.json()
+            order_id = submit_order_response["data"]["id"]
+            return {"submit_order_response": submit_order_response, "order_id": order_id}
         raise ValueError(f"HTTP response error: {response.status_code}")
 
-    def get_esims(self, auth_token = None):
-        """Method to retrieve a list of available eSIMs.
+    def get_esims(self, order_id, auth_token = None) -> list:
+        """Method to retrieve a list of eSIMs previously ordered.
 
         Args:
+            order_id: The ID of the order for which to retrieve eSIMs.
             auth_token (str, optional): An existing access token. If not provided, a new token will be generated.
         
         Raises:
             ValueError: If the access token is not generated or if the HTTP response status is not 200.
 
         Returns:
-            The JSON response from the API.
+            list: The eSIMs from the order that corresponds to `order_id`.
         """
         if not auth_token:
             token = self.get_token()
@@ -91,12 +98,14 @@ class AiraloApiClient:
         else:
             token = auth_token
 
-        esims_url = f"{self.base_url}/v2/sims"
+        esims_url = f"{self.base_url}/v2/sims?include=order&limit=100"
         headers = {
             "Accept": "application/json",
             "Authorization": f"Bearer {token}"}
         response = requests.get(esims_url, headers=headers)
 
         if response.status_code == 200:
-            return response.json()
+            esims = response.json()["data"]
+            esims_ordered = [esim for esim in esims if esim["simable"]["id"] == order_id]
+            return esims_ordered
         raise ValueError(f"HTTP response error: {response.status_code}")
