@@ -6,7 +6,7 @@ The file `test_api.py` has the following main tests:
 2. `test_submit_order_6eSIM`: Test to verify an eSIM order submision based on quantity (6 as indicated in the requirements) and package_id after getting a valid OAuth2 token.
 3. `test_get_esims`: Test to retrieve a list of eSIMs and validate them after getting a valid OAuth2 token.
 
-The other tests verify boundary contditions when generating an eSIM order (2 are expected to fail for ordering an invalid amount of eSIMs).
+The other 4 tests verify boundary contditions when generating an eSIM order (2 are expected to fail for ordering an invalid amount of eSIMs).
 
 ---
 ## Setup and Execution Instructions:
@@ -23,7 +23,7 @@ cd airalo_api_test
 
 ## 2. Clone the Repository
 
-Next, navigate into the directory you just created (`airalo_api_test`) and clone the project repository from GitHub.
+Next, navigate into the directory you just created (`airalo_api_test/`) and clone the project repository from GitHub.
 
 ```bash
 git clone -b master https://github.com/santiago-gc/qa_api.git
@@ -55,7 +55,7 @@ pip install -r requirements.txt
 
 ## 5. Configure Environment Variables
 
-Create a `.env` file (in `qa_api`) to securely store The API credentials.
+Create a `.env` file (in `qa_api/`) to securely store The API credentials.
 
 ```
 CLIENT_ID = "<your_ClientID>"
@@ -64,7 +64,7 @@ CLIENT_SECRET = "<your_ClientSecret>"
 
 ## 6. Verify the Directory Structure
 
-The structure of `airalo_api_test` should look like this:
+The structure of `airalo_api_test/` should look like this:
 
 ```
 airalo_api_test/
@@ -80,4 +80,6 @@ airalo_api_test/
 
 ## 7. Run Tests
 
-Switch to the directory `qa_api` and to execute the tests, you can simply run the command `pytest`.
+Switch to the directory `qa_api/` and from there execute the tests by simply running the command `pytest`.
+
+Five tests should pass, and 2 are expected to fail (`xfail`).
